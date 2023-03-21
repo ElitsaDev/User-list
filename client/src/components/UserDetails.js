@@ -1,4 +1,4 @@
-import {formatDate} from '../utils/dateFormater';
+import { formatDate } from '../utils/dateFormater';
 
 export const UserDetails = ({
     _id,
@@ -54,4 +54,4 @@ export const UserDetails = ({
             </div>
         </div>
     );
-}
+};

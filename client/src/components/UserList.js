@@ -12,9 +12,9 @@ export const UserList = ({
     onUserUpdateSubmit,
 }) => {
     const [selectedUser, setSelectedUser] = useState(null);
-    const [showAddUser, setShowAddUser] = useState();
+    const [showAddUser, setShowAddUser] = useState(false);
     const [showDeleteUser, setShowDeleteUser] = useState(null);
-    const [showEditUser, setShowEditUser] = useState(null);
+    const [showEditUser, setShowEditUser] = useState(null); 
 
     const onInfoClick = async (userId) => {
         const user = await userService.getOne(userId);
@@ -39,8 +39,8 @@ export const UserList = ({
 
     const onUserUpdateSubmitHandler = (e, userId) => {
         onUserUpdateSubmit(e, userId);
-        setShowEditUser(null);
-        // onClose()
+       // setShowEditUser(null);
+        onClose();
     };
 
     const onDeleteClick = (userId) => {
@@ -190,18 +190,19 @@ export const UserList = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(u => <User 
-                                            key={u._id} 
-                                            {...u} 
-                                            onInfoClick={onInfoClick} 
-                                            onDeleteClick={onDeleteClick}
-                                            onEditClick={onEditClick}
-                                        />)}
-
+                        {users.map(u =>
+                            <User
+                                {...u}
+                                key={u._id}
+                                onInfoClick={onInfoClick}
+                                onDeleteClick={onDeleteClick}
+                                onEditClick={onEditClick}
+                            />
+                        )}
                     </tbody>
                 </table>
             </div>
             <button className="btn-add btn" onClick={onUserAddClick}>Add new user</button> 
         </>
     );
-}
+};
