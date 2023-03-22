@@ -9,7 +9,7 @@ import { Search } from './components/Search';
 import { UserList } from './components/UserList';
 import { Pagination } from './components/Pagination';
 
-
+//TODO - search, filter and pagination
 function App() {
     const [users, setUsers] = useState([]);
 
