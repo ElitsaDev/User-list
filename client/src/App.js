@@ -9,6 +9,7 @@ import { Search } from './components/Search';
 import { UserList } from './components/UserList';
 import { Pagination } from './components/Pagination';
 
+
 function App() {
     const [users, setUsers] = useState([]);
 
@@ -55,7 +56,7 @@ function App() {
             <Header />
             <main className="main">
                 <section className="card users-container">
-                    <Search />
+                    <Search users={users} />
 
                     <UserList 
                         users={users} 

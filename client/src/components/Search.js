@@ -1,6 +1,43 @@
-export const Search = () => {
+import { useState } from "react";
+
+export const Search = ({
+    users,
+}) => {
+    const [filteredData, setFilteredData] = useState(users);
+    const [text, setText] = useState("");
+    const [search, setSearch] = useState("");
+
+    const handleText = (event) => {
+        setText(event.target.value);
+      };
+
+      const handleSearch = () => {
+        setSearch(text);
+      };
+
+    const handleSearchCriteria = (event) =>{
+            const keyword = event.target.value;
+            console.log(search);
+            if(keyword !== ''){
+                let filteredUsers = users.filter((user) => {
+                    console.log("filtering users" + user[keyword]);
+                    
+                 return user[keyword].toLowerCase().includes(search.toLowerCase());
+                });
+                console.log(filteredUsers)
+                setFilteredData(filteredUsers);
+             }else{
+                setFilteredData(users);
+             }            
+    };
+
+    const handleClearSearch = () => {
+        setSearch("");
+    }
+
     return (
-        <form className="search-form">
+        
+        <form className="search-form" >
             <h2>
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user"
                     className="svg-inline--fa fa-user SearchBar_icon__cXpTg" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -11,26 +48,26 @@ export const Search = () => {
                 </svg>
                 <span>Users</span>
             </h2>
-            <div className="search-input-container">
-                <input type="text" placeholder="Please, select the search criteria" name="search" />
+            <div className="search-input-container">    
+                <input type="text" placeholder="Please, select the search criteria" name="search" onChange={handleText} />
                 {/* <!-- Show the clear button only if input field length !== 0 --> */}
-                <button className="btn close-btn">
+                <button className="btn close-btn" onClick={handleClearSearch}>
                     <i className="fa-solid fa-xmark"></i>
                 </button>
 
-                <button className="btn" title="Please, select the search criteria">
+                <button className="btn" title="Please, select the search criteria" onClick={handleSearch}>
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
 
             <div className="filter">
                 <span>Search Criteria:</span>
-                <select name="criteria" className="criteria" >
-                    <option value="">Not selected</option>
-                    <option value="">First Name</option>
-                    <option value="">Last Name</option>
-                    <option value="">Email</option>
-                    <option value="">Phone</option>
+                <select name="criteria" className="criteria" onChange={handleSearchCriteria}>
+                    <option value="null" >Not selected</option>
+                    <option value="firstName" >First Name</option>
+                    <option value="lastName" >Last Name</option>
+                    <option value="email" >Email</option>
+                    <option value="phoneNumber" >Phone</option>
                 </select>
             </div>
         </form>

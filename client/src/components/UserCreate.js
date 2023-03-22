@@ -1,8 +1,31 @@
+import { useState } from "react";
+
 export const UserCreate = ({
     user,
     onClose,
     onUserCreateSubmit,
 }) => {
+    const [errors, setErrors] = useState({});
+
+    const validateNameInput = (e, bound) => {
+        let checkedValue = e.target.value;
+        if (checkedValue.length < bound) {
+            setErrors(state => ({
+                ...state,
+                [e.target.name]: true
+            }));
+        }
+    }
+
+    const isPositive = (e) => {
+        let number = Number(e.target.value);
+
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: number < 0,
+        }));
+    }
+
     return (
         <div className="overlay">
             <div className="backdrop"></div>
@@ -25,21 +48,25 @@ export const UserCreate = ({
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" defaultValue={user?.firstName} />
+                                    <input id="firstName" name="firstName" type="text" defaultValue={user?.firstName} onBlur={(e) => validateNameInput(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    First name should be at least 3 characters long!
-                                </p>
+                                {errors.firstName &&
+                                    <p className="form-error">
+                                        First name should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastName">Last name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="lastName" name="lastName" type="text" defaultValue={user?.lastName}/>
+                                    <input id="lastName" name="lastName" type="text" defaultValue={user?.lastName} onBlur={(e) => validateNameInput(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    Last name should be at least 3 characters long!
-                                </p>
+                                {errors.lastName &&
+                                    <p className="form-error">
+                                        Last name should be at least 3 characters long!
+                                    </p>
+                                }
                             </div>
                         </div>
 
@@ -48,7 +75,7 @@ export const UserCreate = ({
                                 <label htmlFor="email">Email</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-envelope"></i></span>
-                                    <input id="email" name="email" type="text" defaultValue={user?.email}/>
+                                    <input id="email" name="email" type="text" defaultValue={user?.email} />
                                 </div>
                                 <p className="form-error">Email is not valid!</p>
                             </div>
@@ -56,7 +83,7 @@ export const UserCreate = ({
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" defaultValue={user?.phoneNumber}/>
+                                    <input id="phoneNumber" name="phoneNumber" type="text" defaultValue={user?.phoneNumber} />
                                 </div>
                                 <p className="form-error">Phone number is not valid!</p>
                             </div>
@@ -76,21 +103,27 @@ export const UserCreate = ({
                                 <label htmlFor="country">Country</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="country" name="country" type="text" defaultValue={user?.address.country} />
+                                    <input id="country" name="country" type="text" defaultValue={user?.address.country} onBlur={(e) => validateNameInput(e, 2)} />
                                 </div>
-                                <p className="form-error">
-                                    Country should be at least 2 characters long!
-                                </p>
+                                {errors.country &&
+                                    <p className="form-error">
+                                        Country should be at least 2 characters long!
+                                    </p>
+                                }
+                                
                             </div>
                             <div className="form-group">
                                 <label htmlFor="city">City</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-city"></i></span>
-                                    <input id="city" name="city" type="text" defaultValue={user?.address.city} />
+                                    <input id="city" name="city" type="text" defaultValue={user?.address.city} onBlur={(e) => validateNameInput(e, 3)} />
                                 </div>
-                                <p className="form-error">
-                                    City should be at least 3 characters long!
-                                </p>
+                                {errors.city &&
+                                    <p className="form-error">
+                                        City should be at least 3 characters long!
+                                    </p>
+                                }
+
                             </div>
                         </div>
 
@@ -99,21 +132,26 @@ export const UserCreate = ({
                                 <label htmlFor="street">Street</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="street" name="street" type="text"  defaultValue={user?.address.street}/>
+                                    <input id="street" name="street" type="text" defaultValue={user?.address.street}  onBlur={(e) => validateNameInput(e, 3)}/>
                                 </div>
-                                <p className="form-error">
-                                    Street should be at least 3 characters long!
-                                </p>
+                                {errors.street &&
+                                    <p className="form-error">
+                                        Street should be at least 3 characters long!
+                                    </p>
+                                }
+
                             </div>
                             <div className="form-group">
                                 <label htmlFor="streetNumber">Street number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-house-chimney"></i></span>
-                                    <input id="streetNumber" name="streetNumber" type="text" defaultValue={user?.address.streetNumber}/>
+                                    <input id="streetNumber" name="streetNumber" type="text" defaultValue={user?.address.streetNumber} onBlur={(e) => isPositive(e)} />
                                 </div>
-                                <p className="form-error">
-                                    Street number should be a positive number!
-                                </p>
+                                {errors.streetNumber &&
+                                    <p className="form-error">
+                                        Street number should be a positive number!
+                                    </p>
+                                }
                             </div>
                         </div>
                         <div id="form-actions">
