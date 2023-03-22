@@ -26,6 +26,28 @@ export const UserCreate = ({
         }));
     }
 
+    const isEmail = (e) => {
+        let email = e.target.value;
+        
+        const EMAIL_PATTERN = /^([a-zA-Z]+)@([a-zA-Z]+)\.([a-zA-Z]+)$/;
+        let regExpresion = new RegExp(EMAIL_PATTERN);
+        
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: regExpresion.test(email),
+        }));
+    }
+
+    const isPhoneNumber = (e) => {
+        let phoneNumber = e.target.value;
+        const PHONE_PATTERN = /^([+]\d{2})?\d{10}$/;
+        let regExpresion = new RegExp(PHONE_PATTERN);
+        setErrors(state => ({
+            ...state,
+            [e.target.name]: regExpresion.test(phoneNumber),
+        }));
+    }
+
     return (
         <div className="overlay">
             <div className="backdrop"></div>
@@ -75,17 +97,22 @@ export const UserCreate = ({
                                 <label htmlFor="email">Email</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-envelope"></i></span>
-                                    <input id="email" name="email" type="text" defaultValue={user?.email} />
+                                    <input id="email" name="email" type="text" defaultValue={user?.email} onBlur={(e) => isEmail(e)}/>
                                 </div>
-                                <p className="form-error">Email is not valid!</p>
+                                {errors.email &&
+                                    <p className="form-error">Email is not valid!</p>
+                                }
+                                
                             </div>
                             <div className="form-group">
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" defaultValue={user?.phoneNumber} />
+                                    <input id="phoneNumber" name="phoneNumber" type="text" defaultValue={user?.phoneNumber} onBlur={(e) => isPhoneNumber(e)}/>
                                 </div>
-                                <p className="form-error">Phone number is not valid!</p>
+                                {errors.phoneNumber &&
+                                    <p className="form-error">Phone number is not valid!</p>
+                                }
                             </div>
                         </div>
 
